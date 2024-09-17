@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Multa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Calculadora de Multa</h1>
+        <div class="row">
+            <div class="col-sm-6">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="start_date" class="form-label">Data de Início</label>
+                        <input type="date" class="form-control" id="start_date" name="start_date" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="line_value" class="form-label">Valor da Multa por Linha (R$)</label>
+                        <input type="number" step="0.01" class="form-control" id="line_value" name="line_value"
+                            value="50.00" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="num_lines" class="form-label">Quantidade de Linhas</label>
+                        <input type="number" class="form-control" id="num_lines" name="num_lines" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Calcular</button>
+                </form>
+            </div>
+            <div class="col-sm-6">
+                {% if end_date and remaining_months is not none and total_fine is not none %}
+
+
+                <ul class="list-group mt-5">
+                    <li class="list-group-item">
+                        <h3>Resultado:</h3>
+                    </li>
+                    <li class="list-group-item">Data Final: {{ end_date }}</li>
+                    <li class="list-group-item">Meses Restantes: {{ remaining_months }}</li>
+                    <li class="list-group-item">Valor Total da Multa: R$ <span id="total_fine">{{ total_fine }}</span>
+                    </li>
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function formatCurrency(value) {
+            return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const totalFineElement = document.getElementById('total_fine');
+            if (totalFineElement) {
+                const totalFine = parseFloat(totalFineElement.textContent);
+                totalFineElement.textContent = formatCurrency(totalFine);
+            }
+        });
+    </script>
+</body>
+
+</html>
