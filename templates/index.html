@@ -15,7 +15,7 @@
             <div class="col-sm-6">
                 <form method="POST">
                     <div class="mb-3">
-                        <label for="start_date" class="form-label">Data de Início</label>
+                        <label for="start_date" class="form-label">Data de Início do Contrato</label>
                         <input type="date" class="form-control" id="start_date" name="start_date" required>
                     </div>
                     <div class="mb-3">
@@ -40,6 +40,7 @@
                     <li class="list-group-item">
                         <h3>Resultado:</h3>
                     </li>
+                    <li class="list-group-item">Quantidade de Linhas: {{ num_lines }}</li>
                     <li class="list-group-item">Data Final: {{ end_date }}</li>
                     <li class="list-group-item">Meses Restantes: {{ remaining_months }}</li>
                     <li class="list-group-item">Valor Total da Multa: R$ <span id="total_fine">{{ total_fine }}</span>
@@ -54,6 +55,18 @@
     <script>
         function formatCurrency(value) {
             return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        function validateForm() {
+            const startDate = document.getElementById('start_date').value;
+            const today = new Date().toISOString().split('T')[0];
+
+            if (startDate > today) {
+                alert("Erro: A data de início não pode ser maior que a data atual.");
+                return false;  // Impede o envio do formulário
+            }
+
+            return true;  // Permite o envio do formulário se a validação passar
         }
 
         document.addEventListener('DOMContentLoaded', (event) => {
