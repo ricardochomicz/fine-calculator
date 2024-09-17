@@ -22,7 +22,11 @@ def index():
         total_fine = remaining_months * line_value * num_lines
 
         end_date_formatted = end_date.strftime('%d/%m/%Y')
-        
+
+        # Verifica se o contrato já venceu
+        if today > end_date:
+            return render_template('index.html', message="Contrato vencido", end_date=end_date_formatted)
+
         return render_template('index.html', end_date=end_date_formatted, remaining_months=remaining_months, total_fine=total_fine)
     
     return render_template('index.html')
